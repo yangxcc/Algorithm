@@ -84,7 +84,7 @@ public class HeapSort {
 //            heapify(arr,i,arr.length);
 //        }
         int heapSize = arr.length;
-        swap(arr, 0, --heapSize);
+        swap(arr, 0, --heapSize);             // 对于大顶堆而言，0位置的数就是最大的
         while (heapSize > 0) {                  // O(N)
             heapify(arr, 0, heapSize);   // O(log N)
             swap(arr, 0, --heapSize);
