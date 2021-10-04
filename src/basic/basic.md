@@ -23,3 +23,21 @@ a*T(N/b)表示的是有a个相同规模的子问题，子问题的规模是N/b
 
 **比如：我可以让冒牌排序和归并排序同时跑相同的50w个随机数组，如果两者结果一致，那么证明两个方法都对了，如果不一致，则证明至少错了一个**
 
+### 比较器
+告诉两个东西怎么比较大小，需要继承Comparator类
+```java
+import java.util.Comparator;
+public class AgeAscendingComparator implements Comparator<Student> {
+    /**
+     * 自定义规则来比较数据大小
+     * 返回负数时，第一个数排在前面
+     * 返回正数时，第二个数排在前面
+     * 返回0时，谁排在前面无所谓
+     */
+
+    @Override
+    public int compare(Student o1, Student o2) {
+        return o1.age - o2.age;
+    }
+}
+```
