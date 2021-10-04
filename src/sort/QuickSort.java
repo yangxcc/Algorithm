@@ -82,7 +82,7 @@ public class QuickSort {
     public static void quickSort(int[] arr, int L, int R) {
         // 一定要随机选择一个数，才能够保证快排的时间复杂度
         if (L < R) {
-            swap(arr, L + ((R - L) >> 1), R);  // 随机选出一个位置和最后一个位置的数做交换，那么后面就用最后的这个位置当成基准num
+            swap(arr, L + (int)(Math.random() * ((R - L) >> 1)), R);  // 随机选出一个位置和最后一个位置的数做交换，那么后面就用最后的这个位置当成基准num
             int[] p = partition(arr, L, R);    // partition 函数返回的是 <区域的右边界和 >区域的左边界
             quickSort(arr, L, p[0] - 1);
             quickSort(arr, p[1] + 1, R);
@@ -93,17 +93,26 @@ public class QuickSort {
     public static int[] partition(int[] arr, int L, int R) {
         int left = L - 1;
         int right = R;
-        for (int i = 0; i < arr.length;) {
-            if (i >= right) {
-                break;
-            }
-            if (arr[i] < arr[R]) {
-                swap(arr, i, ++left);
-                i++;
-            } else if (arr[i] == arr[R]){
-                i++;
+//        for (int i = 0; i < R;) {   // 不清楚为什么上面这种写法越界了
+//            if (i == right) {
+//                break;
+//            }
+//            if (arr[i] < arr[R]) {
+//                swap(arr, i, ++left);
+//                i++;
+//            } else if (arr[i] == arr[R]){
+//                i++;
+//            } else {
+//                swap(arr, i, --right);
+//            }
+//        }
+        while (L < right) {   // L表示的是当前数的位置
+            if (arr[L] < arr[R]) {
+                swap(arr,++left,L++);
+            } else if (arr[L] > arr[R]) {
+                swap(arr,--right,L);
             } else {
-                swap(arr, i, --right);
+                L++;
             }
         }
         swap(arr,right,R);   // 因为是以最后的这个数为基准，所以要将它给换到中间的等于区域
