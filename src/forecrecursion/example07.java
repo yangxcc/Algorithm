@@ -31,7 +31,7 @@ public class example07 {
 
     public static int process2(int bag, int[] weights, int[] values, int i, int alreadyWeight, int alreadyValue) {
         if (i == values.length) {
-            return 0;
+            return alreadyValue;
         }
         if (alreadyWeight > bag) {
             return alreadyValue;
@@ -39,7 +39,7 @@ public class example07 {
         // 对于第i号货物我有两种选择，一个是我选，一个是我不选
         return Math.max(
                 process2(bag, weights, values, i + 1, alreadyWeight,alreadyValue),
-                values[i] + process2(bag, weights, values, i + 1, alreadyWeight + weights[i],alreadyValue + values[i])
+                process2(bag, weights, values, i + 1, alreadyWeight + weights[i],alreadyValue + values[i])
         );
         // return alreadyWeight + weights[i] <= bag ? alreadyValue + values[i] : alreadyValue;
     }
@@ -47,7 +47,7 @@ public class example07 {
     public static void main(String[] args) {
         int[] w = {1, 2, 3, 4};
         int[] v = {1, 3, 4, 2};
-        int bag = 6;
+        int bag = 100;
         System.out.println(returnMaxValue(bag, w, v));
     }
 }
