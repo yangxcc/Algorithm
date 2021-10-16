@@ -11,16 +11,19 @@ public class example07 {
         if (bag <= 0) {
             return -1;
         }
+//        return process(bag, weights, values, 0, 0);
         return process2(bag, weights, values, 0, 0,0);
     }
 
+    // 这种方式咋不对呢
 //    public static int process(int bag, int[] weights, int[] values, int i, int alreadyWeight) {
-//        if (i == values.length) {
-//            return 0;
-//        }
 //        if (alreadyWeight > bag) {
 //            return 0;
 //        }
+//        if (i == values.length) {
+//            return 0;
+//        }
+//
 //        // 对于第i号货物我有两种选择，一个是我选，一个是我不选
 //        return Math.max(
 //                process(bag, weights, values, i + 1, alreadyWeight),
@@ -30,12 +33,13 @@ public class example07 {
 //    }
 
     public static int process2(int bag, int[] weights, int[] values, int i, int alreadyWeight, int alreadyValue) {
+        if (alreadyWeight > bag) {
+            return 0;
+        }
         if (i == values.length) {
             return alreadyValue;
         }
-        if (alreadyWeight > bag) {
-            return alreadyValue;
-        }
+
         // 对于第i号货物我有两种选择，一个是我选，一个是我不选
         return Math.max(
                 process2(bag, weights, values, i + 1, alreadyWeight,alreadyValue),
@@ -47,7 +51,7 @@ public class example07 {
     public static void main(String[] args) {
         int[] w = {1, 2, 3, 4};
         int[] v = {1, 3, 4, 2};
-        int bag = 100;
+        int bag = 5;
         System.out.println(returnMaxValue(bag, w, v));
     }
 }
