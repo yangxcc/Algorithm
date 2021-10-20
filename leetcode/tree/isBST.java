@@ -16,6 +16,17 @@ public class isBST {
         return process(root, min, max);
     }
 
+    // 要有min和max的原因是为了避免这种情况的出现
+    /**
+     *      4
+     *     / \
+     *    1   3
+     *         \
+     *          5
+     *
+     *  所以用来定义子树上的最大值和最小值
+     *
+     *  */
     public boolean process(Node root, Node min, Node max) {
         if (root == null) {
             return true;
