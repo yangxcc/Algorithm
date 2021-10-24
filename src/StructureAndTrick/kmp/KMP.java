@@ -1,4 +1,4 @@
-package kmp;
+package StructureAndTrick.kmp;
 
 import java.util.Arrays;
 
