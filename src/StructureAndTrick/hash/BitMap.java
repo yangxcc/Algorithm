@@ -1,4 +1,4 @@
-package hash;
+package StructureAndTrick.hash;
 
 public class BitMap {
 
