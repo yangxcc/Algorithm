@@ -46,6 +46,27 @@ public class KMP {
     }
 
     // 得到str2的最大前缀和数组
+    // next数组产生需要先了解两个概念：前缀和后缀
+    /**
+     * 前缀： 除了最后一个字符之外的，一个字符串的全部头部组合
+     * 后缀：除了第一个字符之外的，一个字符串的全部尾部组合
+     *
+     * "部分匹配值"就是"前缀"和"后缀"的最长的共有元素的长度。以"ABCDABD"为例，
+     *
+     * 　　－　"A"的前缀和后缀都为空集，共有元素的长度为0；
+     *
+     * 　　－　"AB"的前缀为[A]，后缀为[B]，共有元素的长度为0；
+     *
+     * 　　－　"ABC"的前缀为[A, AB]，后缀为[BC, C]，共有元素的长度0；
+     *
+     * 　　－　"ABCD"的前缀为[A, AB, ABC]，后缀为[BCD, CD, D]，共有元素的长度为0；
+     *
+     * 　　－　"ABCDA"的前缀为[A, AB, ABC, ABCD]，后缀为[BCDA, CDA, DA, A]，共有元素为"A"，长度为1；
+     *
+     * 　　－　"ABCDAB"的前缀为[A, AB, ABC, ABCD, ABCDA]，后缀为[BCDAB, CDAB, DAB, AB, B]，共有元素为"AB"，长度为2；
+     *
+     * 　　－　"ABCDABD"的前缀为[A, AB, ABC, ABCD, ABCDA, ABCDAB]，后缀为[BCDABD, CDABD, DABD, ABD, BD, D]，共有元素的长度为0
+     * */
     public static int[] getNexts(char[] ms) {
         if (ms.length == 1) {
             return new int[]{-1};
@@ -55,9 +76,9 @@ public class KMP {
         next[1] = 0;
         int i = 2; // next数组开始的位置
         int cn = 0;
-        // cn 在下面的代码中有两个功能：第一个功能是表示i位置的最大前缀，第二个意思还能够定位到前缀的后一个
+        // cn 在下面的代码中有两个功能：第一个功能是表示i-1位置的最大前缀，第二个意思还能够定位到前缀的后一个
         while (i < next.length) {
-            if (ms[cn] == ms[i - 1]) {
+            if (ms[cn] == ms[i - 1]) {   // 如果cn指向的位置和i-1位置的元素相同，那么i位置的前缀和要加1
                 next[i++] = ++cn;
                 // 相当于 cn++  next[i] = cn  i++
             } else if (cn > 0) {
