@@ -63,7 +63,7 @@ public int process(int[] coins, int target, int index) {
 
 
 
-### 添加一个“备忘录”的递归
+### 记忆化搜索（添加一个“备忘录”的递归）
 
 其实这种方式和上面的暴力递归如出一辙，就是在程序计算的过程中添加一个备忘录，来记录已经判断过的节点
 
@@ -131,7 +131,7 @@ public int process(int[] coins, int target, int index, int[][] dp) {
 
 
 
-### 动态规划
+### 严格表结构动态规划
 
 动态规划一般情况下脱离了递归，由循环迭代来完成
 
@@ -202,3 +202,81 @@ public int minCoinsAlgorithm(int[] coins, int target) {
 
 时间复杂度和"备忘录"递归一样都是`O(n * k)`
 
+
+
+
+
+
+
+### 对于枚举的改进
+
+```
+ * 题目：给定一个正数数组，其中数组的值表示的是硬币的面值，
+ * 给定一个target，每个硬币可以无限使用，请问有几种方式能够凑出target来
+ * 
+ * 比如：数组为[2,3,4,5,6], target = 100，给了无数个2，无数个3...有几种方法能够凑出100来
+```
+
+在这道题目中，我们同样可以根据暴力递归改成严格表结构的动态规划，如下
+
+```java
+    // 严格表结构的DP
+    public static int way2(int[] arr, int target) {
+        if (arr == null || arr.length == 0 || target <= 0) {
+            return 0;
+        }
+        int[][] dp = new int[arr.length + 1][target + 1];
+        dp[arr.length][0] = 1;   // 对dp数组初始化
+        for (int index = arr.length - 1; index >= 0; index--) {
+            for (int aim = 0; aim <= target; aim++) {
+                int ways = 0;
+                for (int num = 0; num * arr[index] <= aim; num++) {
+                    ways += dp[index + 1][aim - num * arr[index]];
+                }
+                dp[index][aim] = ways;
+            }
+        }
+        return dp[0][target];
+    }
+```
+
+可以发现，上述的算法有三层循环，它的时间复杂度为`O(N * target * target)`
+
+因为在第三层循环里面存在着枚举过程，同样存在重复计算，如下图所示
+
+<img src="../../../image\image-20211031184110998.png" alt="image-20211031184110998" style="zoom:80%;" />
+
+假设`arr={3,2,1,4,6},target=10`，那么能够画出来的`dp`二维数组如上图所示
+
+根据暴力递归中的
+
+```java
+        for (int num = 0; num * arr[index] <= target; num++) {
+            ways += process1(arr, index + 1, target - arr[index] * num);
+        }
+```
+
+可以得到，`dp[index][target] = dp[index + 1][target - arr[index] * num]`，也就是绿色下面的黄色部分，因为在绿色点的时候`index=2`，`arr[2] = 1`，所以黄色的都是一个个挨着的，所以所有黄色的加起来，就是绿色的值
+
+所以，就能够看出来了，最差情况下，我的`target=10,arr[index]=1`，我的第三层循环也会执行`target`次，所以即使改成了动态规划，我的时间复杂度还是`O(N * target^2)`
+
+**因此，我们可以对基于严格表结构的动态规划做出更进一步的优化**
+
+我们想要求出当前绿色点的值，按照上面的算法是对它下一层的所有黄色节点加起来，但是这就会出现重叠子问题了（重复计算），我们可以看到蓝色的点，在计算绿色点之前肯定先是计算蓝色的点，蓝色的点等于图中前三个黄色点之和，当我在计算绿色点的时候，我如果使用蓝色点的值加上绿色点下面的这个黄色点的值不就是绿色点的值了吗？！
+
+<img src="../../../image\image-20211031190452654.png" alt="image-20211031190452654" style="zoom:67%;" />
+
+这样我就能够消除掉重复计算，减小时间复杂度，如下代码
+
+```java
+        for (int index = arr.length - 1; index >= 0; index--) {
+            for (int aim = 0; aim <= target; aim++) {
+                dp[index][aim] = dp[index + 1][aim];   // 绿色点下面的黄色点
+                if (aim - arr[index] >= 0) {
+                    dp[index][aim] += dp[index][aim - arr[index]];    // 对蓝色点之前的所有黄色点求和
+                }
+            }
+        }
+```
+
+其实，这种优化的本质就是用临近位置来替代枚举行为
