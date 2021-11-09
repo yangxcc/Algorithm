@@ -100,7 +100,7 @@ public class traverse {
             } else if (cur.right != null && root != cur.right) {
                 stack.add(cur.right);
             } else {
-                System.out.println(cur.val);
+                System.out.println(stack.pop().val);
                 root = cur;
             }
         }
