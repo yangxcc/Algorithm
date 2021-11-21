@@ -62,7 +62,7 @@ public class lowestAncestor {
          * 当 head 为空的时候，就返回空，当head碰到o1或者o2的时候就返回o1或者o2
          * */
         if (head == null || head == o1 || head == o2) {
-            return null;
+            return head;
         }
         // 在左子树中去找o1或者o2
         Node left = findLowestAncestor02(head.left,o1,o2);
