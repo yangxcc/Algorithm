@@ -4,14 +4,14 @@ package linkedList;
  * Node节点
  */
 public class ListNode {
-    Integer val;
-    ListNode next;
-    ListNode rand;
+    public Integer val;
+    public ListNode next;
+    public ListNode rand;
 
     ListNode() {
     }
 
-    ListNode(Integer val) {
+    public ListNode(Integer val) {
         this.val = val;
     }
 
