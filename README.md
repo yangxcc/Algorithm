@@ -273,6 +273,69 @@
 
 11. 解决“括号题目”可能会使用到栈，因为可能会涉及到左括号和右括号的顺序匹配
 
+12. 单调栈的用途不太广泛，只处理一种典型的问题，叫做`Next Greater Element`，这种问题的意思是：给定一个数组`[2,1,2,4,3]`，求出每个元素后面离他最近且比他大的元素，如下图所示
+
+    <img src="image/image-20211208170335241.png" alt="image-20211208170335241" style="zoom:67%;" />
+
+    这就相当于“按照身高排大小”，如果能够看到元素「2」，那么他后面可见的第⼀个人就是「2」的 Next Greater Number，因为比「2」小的元素身高不够，都被「2」挡住了，第⼀个露出来的就是答案。
+
+    ```java
+    // 单调栈框架代码
+    public int[] findNextGreatNumber(int[] nums) {
+        if (nums.length == 0) {
+            return new int[0];
+        }
+        Stack<Integer> stack = new Stack<>();
+        int[] res = new int[nums.length];
+        // 因为栈是先进后出，所以要倒序处理
+        for (int i = nums.length - 1; i >= 0; i--) {
+            // 单调栈的顺序是从上往下依次增大，这里必须要有等号
+            while (!stack.isEmpty() && stack.peek() <= nums[i]) {
+                stack.pop();
+            }
+            res[i] = stack.isEmpty() ? -1 : stack.peek();
+            stack.push(nums[i]);
+        }
+        return res;
+    }
+    // 时间复杂度从整体看，每个元素最大进栈一次，出栈一次，没有其他操作，所以总的计算规模和元素规模n成正比，时间复杂度是O(N)
+    ```
+
+    
+
+13. 单调队列这个数据结构可以用来解决滑动窗口相关问题，比如leetcode 239，滑动窗口的最大值
+
+    单调队列实现的过程中，时刻想着这幅图就不会出错了
+
+    <img src="image/image-20211208175831206.png" alt="image-20211208175831206" style="zoom:67%;" />
+
+    ```java
+    // 实现单调队列的时候，脑子里要时刻想着上面这幅图
+    class MonotonicQueue{
+        LinkedList<Integer> q = new LinkedList<>();
+        
+        public void push(int n) {
+            // duang过程
+            while (!q.isEmpty() && q.peekLast() < n) {
+                q.pollLast();
+            }
+            q.addLast();
+        }
+        
+        public int max() {
+            return q.getFirst();
+        }
+        
+        public void pop(int n) {
+            if (n == q.getFirst()) {
+                q.pollFirst();
+            }
+        }
+    }
+    ```
+
+    
+
 
 
 
