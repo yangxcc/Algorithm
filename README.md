@@ -340,7 +340,51 @@
 
 
 
+14. 原地修改有序数组的时候，能够直接使用双指针
 
+    但是如果不是有序数组的话，我们可以需要使用单调栈了，因为单调栈还能够保证数组数据的相对顺序不改变
+
+    如果没有保证数组相对顺序不变这个条件的话，我们可以直接把数组排序，然后在双指针（快慢指针）来做
+
+    对于不是有序数组的情况，以[leetcode 316. 去除重复字母](https://leetcode-cn.com/problems/remove-duplicate-letters/)为例
+
+    ```java
+    // 我们首先去重，保证相对顺序，同时返回最小的字符排列
+    Stack<Character> stack = new Stack<>();
+    int[] count = new int[256];
+    for (int i = 0; i < s.length(); i++) {
+        count[s.charAt(i)]++;
+    }
+    
+    for (int i = 0; i < s.length(); i++) {
+        char c = s.charAt(i);
+        count[c]--;
+        if (inStack[c]) {   // 已经在栈中了，就不要再进来了
+            continue;
+        }
+    
+        while (!stack.isEmpty() && stack.peek() > c) {
+            if (count[c] == 0) {
+            	break;
+        	}
+            inStack[stack.pop()] = false;  // 弹出栈，同时标记成不在栈中
+        }
+        stack.push(c);
+        inStack[c] = true;
+    }
+    StringBuilder sb = new StringBuilder();
+    while (stack.isEmpty()) {
+        sb.append(stack.pop());
+    }
+    return sb.reverse().toString();
+    
+    // 上述代码在使用测试用例s = "bcac"，按照刚才的算法逻辑，返回的结果是"ac"，而正确答案应该是"bac"
+    // 这是因为当a想要进栈的时候会把bc都弹出去，而b只出现了一次
+    // 所以我们还需要一个计数器，来判断每个字符在后面是否还会出现，如果还会出现，那么进行弹栈操作
+    // 如果不会出现了，就终止弹栈循环，因为还要保证字符之间的相对顺序
+    ```
+
+    
 
 
 
