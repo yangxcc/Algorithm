@@ -5,6 +5,13 @@ import java.util.Arrays;
 /**
  * 零钱兑换
  * 给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。
+ *
+ * 给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。
+ *
+ * 计算并返回可以凑成总金额所需的 最少的硬币个数 。如果没有任何一种硬币组合能组成总金额，返回 -1 。
+ *
+ * 你可以认为每种硬币的数量是无限的。
+ *
  */
 
 // 暴力递归是自顶向下
@@ -63,7 +70,7 @@ public class CoinChange {
         for (int coin : coins) {
             int sub = dp2(coins, amount - coin);
             if (sub == -1) continue;
-            res = Math.min(res, sub) + 1;
+            res = Math.min(res, sub + 1);
         }
         memo[amount] = res == Integer.MAX_VALUE ? -1 : res;
         return memo[amount];
@@ -81,7 +88,7 @@ public class CoinChange {
         for (int i = 0; i < dp.length; i++) {
             for (int coin : coins) {
                 if (i - coin > 0) {
-                    dp[i] = Math.min(dp[i], dp[i - coin]) + 1;
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
                 }
             }
         }
