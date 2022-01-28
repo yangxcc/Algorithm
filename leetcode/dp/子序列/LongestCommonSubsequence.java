@@ -1,4 +1,4 @@
-package dp;
+package dp.子序列;
 
 /**
  * 最长公共子序列
