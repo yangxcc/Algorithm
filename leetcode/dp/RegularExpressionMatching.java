@@ -49,7 +49,7 @@ public class RegularExpressionMatching {
             }
         } else {
             // 当s.charAt(i) != s.charAt(j) 并且 s.charAt(j) != '.'
-            if (p.charAt(j + 1) == '*') {
+            if (j + 1 < p.length() && p.charAt(j + 1) == '*') {
                 // 这里可以只能选择匹配0个字符，将不相等的这个字符删除下去
                 return dp(s, i, p, j + 2);
             } else {
