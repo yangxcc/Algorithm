@@ -1,4 +1,4 @@
-package dp.背包问题;
+package dp.背包问题._01背包;
 
 /**
  * 分割等和的子集
@@ -16,7 +16,7 @@ public class CanPartition {
             sum += num;
         }
         if (sum % 2 == 1) {
-            return false;   // 如果sum是负数的话，那么是一定不会凑出两份完全相等的来
+            return false;   // 如果sum是奇数的话，那么是一定不会凑出两份完全相等的来
         }
         sum /= 2;
 
@@ -49,7 +49,7 @@ public class CanPartition {
             sum += num;
         }
         if (sum % 2 == 1) {
-            return false;   // 如果sum是负数的话，那么是一定不会凑出两份完全相等的来
+            return false;   // 如果sum是奇数的话，那么是一定不会凑出两份完全相等的来
         }
         sum /= 2;
 
@@ -59,7 +59,9 @@ public class CanPartition {
         dp[0] = true;
 
         for (int i = 0; i < nums.length; i++) {
-            // 唯⼀需要注意的是 j 应该从后往前反向遍历，因为每个物品（或者说数字）只能用⼀次，以免之前的结果影响其他的结果。
+            // 需要注意的有两点，分别是
+            //    j 应该从后往前反向遍历，因为每个物品（或者说数字）只能用⼀次，以免之前的结果影响其他的结果。
+            //    先遍历物品，在遍历背包
             for (int j = sum; j >= 0; j--) {
                 if (j - nums[i] >= 0) {
                     dp[j] = dp[j] || dp[j - nums[i]];
