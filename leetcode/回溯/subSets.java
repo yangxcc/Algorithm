@@ -24,11 +24,14 @@ public class subSets {
 
     // index表示第几个数，为了不重复，第index前的数就不会再访问了
     public void backtrack(int[] nums, int index, List<Integer> path) {
+        // 进入回溯就先把这个path加进来
+        res.add(new ArrayList<>(path));
+        // 索引应该写到这里，而不是下面那里
         if (index == nums.length) {
             return;
         }
-        // 进入回溯就先把这个path加进来
-        res.add(new ArrayList<>(path));
+//        // 进入回溯就先把这个path加进来
+//        res.add(new ArrayList<>(path));
 
         for (int i = index; i < nums.length; i++) {
             // 做选择
