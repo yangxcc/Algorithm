@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class OnesAndZeros {
     // 方法1：回溯得到所有的子集，然后对子集进行校验选择
+    // 这种方法在leetcode种内存爆了
     List<List<String>> res = new ArrayList<>();
 
     public int findMaxForm(String[] strs, int m, int n) {
