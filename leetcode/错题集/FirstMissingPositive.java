@@ -1,5 +1,7 @@
 package 错题集;
 
+import java.util.Arrays;
+
 /**
  * 缺失的第一个正数
  *
@@ -63,9 +65,37 @@ public class FirstMissingPositive {
         return n + 1;
     }
 
-    public void swap(int[] arr, int i, int j) {
+    public static void swap(int[] arr, int i, int j) {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
+    }
+
+
+    public static int firstMissingNumBiggerThanK(int[] nums, int k) {
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            while (nums[i] - k >= 0 && nums[i] - k < n && nums[i] != nums[nums[i] - k]) {
+                swap(nums, i, nums[i] - k);
+            }
+        }
+
+        System.out.println(Arrays.toString(nums));
+        if (nums[0] > k) {
+            return k + 1;
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != i + k) {
+                return i + k;
+            }
+        }
+        return n + k;
+    }
+
+
+    public static void main(String[] args) {
+        int[] nums = {4, 7,8};
+        System.out.println(firstMissingNumBiggerThanK(nums, 4));
     }
 }
