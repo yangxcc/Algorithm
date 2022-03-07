@@ -46,7 +46,35 @@ public class RemoveKDigits {
     }
 
     public static void main(String[] args) {
-        String s = "10";
+        String s = "1432219";
         System.out.println(removeKdigits(s, 3));
+        System.out.println(removeKdigits2(s, 3));
     }
+
+    // 要想使删除后的数字最大，那么就要尽可能的删除前面较小的数
+    public static String removeKdigits2(String num, int k) {
+        Deque<Character> stack = new ArrayDeque<>();
+        stack.addLast(num.charAt(0));
+        for (int i = 1; i < num.length(); i++) {
+            while (!stack.isEmpty() && stack.peekLast() < num.charAt(i) && k > 0) {
+                stack.pollLast();
+                k--;
+            }
+            stack.addLast(num.charAt(i));
+        }
+
+        // 如果是降序的话，比如是987654，那么需要删除后k个数
+        for (int i = 0; i < k; i++) {
+            stack.pollLast();
+        }
+
+        StringBuilder res = new StringBuilder();
+        while (!stack.isEmpty()) {
+            res.append(stack.pollFirst());
+        }
+
+        // 这里不取出前置0了
+        return res.toString();
+    }
+
 }
