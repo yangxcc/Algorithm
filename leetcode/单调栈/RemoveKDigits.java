@@ -4,7 +4,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- *
+ * 给你一个以字符串表示的非负整数 num 和一个整数 k ，移除这个数中的 k 位数字，
+ * 使得剩下的数字最小。请你以字符串形式返回这个最小的数字。
  */
 public class RemoveKDigits {
     public static String removeKdigits(String num, int k) {
