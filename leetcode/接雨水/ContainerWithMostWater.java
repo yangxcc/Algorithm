@@ -2,11 +2,12 @@ package 接雨水;
 
 /**
  * 这个题其实就是接雨水问题，只不过这道题里面的柱子是没有宽度的
+ * 这是让求哪两个杆之间的水是最多的，不是一共能成多少水
  *
  * leetcode 11 : https://leetcode-cn.com/problems/container-with-most-water/
  */
 public class ContainerWithMostWater {
-    public int maxArea(int[] height) {
+    public static int maxArea(int[] height) {
         int left = 0, right = height.length - 1;
         int res = 0;
         while (left < right) {
@@ -19,5 +20,10 @@ public class ContainerWithMostWater {
             }
         }
         return res;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {3,2,5,4,6,2};
+        System.out.println(maxArea(nums));
     }
 }
