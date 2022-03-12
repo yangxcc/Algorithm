@@ -1,4 +1,4 @@
-package dp.背包问题._01背包;
+package dp.背包问题.完全背包;
 
 import java.util.Arrays;
 
@@ -79,6 +79,8 @@ public class CoinChange {
 
     // 无论是添加直接暴力递归还是添加了一个备忘录的递归，都是自顶向下的解决方式
     // 我们这里使用dp数组，自底向上的来解决这个问题
+    // 这是一个纯完全背包问题，因此物品和背包的遍历顺序无所谓
+    // 因为这是让求最小个数，所以不需要去纠结他是组合还是排列，需要在乎的是能不能组成
     public int coinChange3(int[] coins, int amount) {
         // dp[i]表示的就是凑成i所需零钱的最小个数
         int[] dp = new int[amount + 1];
