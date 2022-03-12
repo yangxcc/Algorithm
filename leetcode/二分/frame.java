@@ -40,7 +40,7 @@ public class frame {
             if (nums[mid] == target) {
                 // 因为是找左边界，所以这里就不能直接返回了，而是收缩右边界
                 // 因为是闭区间了，所以right = mid - 1
-                right = mid;
+                right = mid - 1;
             } else if (nums[mid] < target) {
                 left = mid + 1;
             } else if (nums[mid] > target) {
