@@ -1,4 +1,4 @@
-package dp.背包问题;
+package dp.背包问题.完全背包;
 
 /**
  * 给你一个整数数组 coins 表示不同面额的硬币，另给一个整数 amount 表示总金额。
@@ -38,7 +38,7 @@ public class CoinChange2 {
                 }
             }
         }
-        return dp[amount][coins.length];
+        return dp[coins.length][amount];
     }
 
     // 把二维数组压缩成一维数组
@@ -52,6 +52,24 @@ public class CoinChange2 {
                 if (j - coins[i] >= 0) {
                     dp[j] = dp[j - coins[i]] + dp[j];
                 }
+            }
+        }
+        return dp[amount];
+    }
+
+
+    // 换一下状态转移方程
+    // 因为物品的数量是无限的，所以他是一个完全背包问题，但是
+    // 他又不是纯完全背包问题，纯完全背包是能否凑成总金额，而本题是要求凑成总金额的个数
+    // 题目中要求的是组合数，因为组合数不强调顺序，比如amount=5  ===> 2+2+1和2+1+2是属于同一个组合
+    // 但是不属于同一个排列
+    // 组合不强调元素之间的顺序，排列强调元素之间的顺序
+    public int change3(int amount, int[] coins) {
+        int[] dp = new int[amount + 1];
+        dp[0] = 1;
+        for (int i = 0; i < coins.length; i++) {
+            for (int j = coins[i]; j <= amount; j++) {
+                dp[j] += dp[j - coins[i]];
             }
         }
         return dp[amount];
