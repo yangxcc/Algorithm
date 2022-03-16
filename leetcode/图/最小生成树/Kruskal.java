@@ -2,7 +2,6 @@ package 图.最小生成树;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.PriorityQueue;
 
 /**
  * 树和图的根本区别是：树中不会包含环，图中可能会有环，即树是无环连通图
@@ -42,7 +41,7 @@ public class Kruskal {
         });
 
         // 因为城市的编号是1-N，所以这里是n+1
-        UnionFind uf = new UnionFind(n + 1);
+        UnionFind1 uf = new UnionFind1(n + 1);
         int mst = 0;
 
         for (int[] edge : connections) {
