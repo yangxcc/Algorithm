@@ -51,18 +51,14 @@ public class CourseSchedule {
 
     public HashMap<Integer, List<Integer>> buildGraph(int numCourses, int[][] prerequisites) {
         HashMap<Integer, List<Integer>> graph = new HashMap<>();
-        for (int i = 0; i < prerequisites.length; i++) {
-            int before = prerequisites[i][1];
-            int after = prerequisites[i][0];
-            if (graph.get(before) != null) {
-                List<Integer> temp = graph.get(before);
-                temp.add(after);
-                graph.put(before, temp);
-            } else {
-                List<Integer> temp = new ArrayList<>();
-                temp.add(after);
-                graph.put(before, temp);
-            }
+        for (int i = 0; i < numCourses; i++) {
+            graph.put(i, new ArrayList<>());
+        }
+        for (int[] edge : prerequisites) {
+            int from = edge[1];
+            int to = edge[0];
+            // indegree[to]++;
+            graph.get(from).add(to);
         }
         return graph;
     }
@@ -70,6 +66,7 @@ public class CourseSchedule {
     boolean[] visited;   // 防止重复遍历同一个节点
     boolean[] onPath;    // 记录每一次的dfs经过的节点
     boolean hasCycle;
+    int[] indegree;
 
     public void dfs(HashMap<Integer, List<Integer>> graph, int start) {
         if (onPath[start]) {
@@ -106,8 +103,38 @@ public class CourseSchedule {
         return !hasCycle;
     }
 
+    // 不管是DFS，还是BFS，时间复杂度都分成了两个部分：访问每个节点花费的事件以及找这个节点的邻居花费的事件
+    // 访问每个节点的时间是O(1)，一共n个节点，所以这部分的时间复杂度是O(n)
+    // 在邻接表中找每个节点的邻居其实就是遍历这个list，因此这一部分的时间复杂度是O(e)
+    // 所以总的时间复杂度为O(n + e)
+    // 由于在BFS中还用到了队列，因此BFS要比DFS慢一些
+
+    public boolean canFinishUsingBFS(int numCourses, int[][] prerequisites) {
+        indegree = new int[numCourses];
+        HashMap<Integer, List<Integer>> graph = buildGraph(numCourses, prerequisites);
+        // 找到入度为0的课程
+        Deque<Integer> q = new ArrayDeque<>();
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) {
+                q.addLast(i);
+            }
+        }
+        int count = 0; // 操作次数
+        while (!q.isEmpty()) {
+            int curCourse = q.pollLast();
+            for (int neighbor : graph.get(curCourse)) {
+                indegree[neighbor]--;
+                if (indegree[neighbor] == 0) {
+                    q.addLast(neighbor);
+                }
+            }
+            count++;
+        }
+        return count == numCourses;
+    }
+
     public static void main(String[] args) {
-        int[][] prerequisites = new int[][]{{1,0}};
+        int[][] prerequisites = new int[][]{{1, 0}};
         int numCourses = 2;
         System.out.println(canFinish(numCourses, prerequisites));
     }
