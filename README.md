@@ -1,8 +1,16 @@
+**第一遍先用Java，第二遍再用Golang**
+
+**第二遍的时候会总结题型以及相应的解法**
+
 1. 数组和链表代表着计算机最基本的两种存储形式：顺序存储和链式存储，所以他们两个可以算是最基本的数据结构了。
 
    数组和链表的主要算法技巧是双指针，双指针又分为中间向两端扩散的双指针，两端向中间收缩的双指针，以及快慢指针，除了双指针之外，前缀和和差分数组也是常用技巧
 
 2. 前缀和技巧**适用于原始数组不会被修改的情况下**，快速、频繁地计算/查询一个索引区间内的元素之和
+
+   <img src="image/image-20211212143347392.png" alt="image-20211212143347392" style="zoom:50%;" />
+
+   事实上，前缀和数组中如果两个位置的值相等，那么就代表这两个位置中间的数加起来为0
 
    ```java
    // 前缀和的核心代码
@@ -71,7 +79,7 @@
 
    
 
-4. 对于子串、子数组的问题，很有可能使用滑动窗口能够解决，滑动窗口的框架
+4. 对于子串、子数组的问题，很有可能使用滑动窗口能够解决，滑动窗口的框架，当数组中出现了负数的时候就不可以使用滑动窗口了，比如[剑指 Offer II 010. 和为 k 的子数组 - 力扣（LeetCode） (leetcode-cn.com)](https://leetcode-cn.com/problems/QTMn0o/)，就不可以使用滑动窗口，可以使用前缀和
 
    ```java
    public void slidingWindow(String s, String t) {   // t是子数组
@@ -101,12 +109,12 @@
        }
    }
    ```
-
-
-
-5. 有一个小点需要注意，在Java中，Integer等包装类的类型判断相等不能够直接使用`==`，应该和String一样，也使用`equals()`
-
    
+    这里面需要注意，在Java中，Integer等包装类的类型判断相等不能够直接使用`==`，应该和String一样，也使用`equals()`
+   
+   尤其是面对`HashMap<xx,Integer>`这种的时候，如果想要比较`get`出来的结果必须要使用`equals()`
+
+
 
 6. 二分搜索的基本框架
 
@@ -240,7 +248,7 @@
 
    
 
-7. 田忌赛马问题的核心就是让自己占便宜，让对方吃亏，**打得过就打，打不过就拿自己这边的的垃圾去和对方的精锐换**
+2. 田忌赛马问题的核心就是让自己占便宜，让对方吃亏，**打得过就打，打不过就拿自己这边的的垃圾去和对方的精锐换**
 
    ```java
    // 核心代码
@@ -265,74 +273,74 @@
 
    > 例题：[870. 优势洗牌](https://leetcode-cn.com/problems/advantage-shuffle/)
 
-8. 在排序问题中，如果不能够直接修改原数组，需要辅助结构，一定要想到大根堆或者小根堆
+3. 在排序问题中，如果不能够直接修改原数组，需要辅助结构，一定要想到大根堆或者小根堆
 
-9. 对于单链表的问题，我们大部分情况下可以使用双指针，快慢指针，还有实在没思路的时候不妨考虑一下递归
+4. 对于单链表的问题，我们大部分情况下可以使用双指针，快慢指针，还有实在没思路的时候不妨考虑一下递归
 
-10. 使用两个栈能够实现一个队列，使用一个队列能够实现栈
+5. 使用两个栈能够实现一个队列，使用一个队列能够实现栈
 
-11. 解决“括号题目”可能会使用到栈，因为可能会涉及到左括号和右括号的顺序匹配
+6. 解决“括号题目”可能会使用到栈，因为可能会涉及到左括号和右括号的顺序匹配
 
-12. 单调栈的用途不太广泛，只处理一种典型的问题，叫做`Next Greater Element`，这种问题的意思是：给定一个数组`[2,1,2,4,3]`，求出每个元素后面离他最近且比他大的元素，如下图所示
+7. 单调栈的用途不太广泛，只处理一种典型的问题，叫做`Next Greater Element`，这种问题的意思是：给定一个数组`[2,1,2,4,3]`，求出每个元素后面离他最近且比他大的元素，如下图所示
 
-    <img src="image/image-20211208170335241.png" alt="image-20211208170335241" style="zoom:67%;" />
+   <img src="image/image-20211208170335241.png" alt="image-20211208170335241" style="zoom:67%;" />
 
-    这就相当于“按照身高排大小”，如果能够看到元素「2」，那么他后面可见的第⼀个人就是「2」的 Next Greater Number，因为比「2」小的元素身高不够，都被「2」挡住了，第⼀个露出来的就是答案。
+   这就相当于“按照身高排大小”，如果能够看到元素「2」，那么他后面可见的第⼀个人就是「2」的 Next Greater Number，因为比「2」小的元素身高不够，都被「2」挡住了，第⼀个露出来的就是答案。
 
-    ```java
-    // 单调栈框架代码
-    public int[] findNextGreatNumber(int[] nums) {
-        if (nums.length == 0) {
-            return new int[0];
-        }
-        Stack<Integer> stack = new Stack<>();
-        int[] res = new int[nums.length];
-        // 因为栈是先进后出，所以要倒序处理
-        for (int i = nums.length - 1; i >= 0; i--) {
-            // 单调栈的顺序是从上往下依次增大，这里必须要有等号
-            while (!stack.isEmpty() && stack.peek() <= nums[i]) {
-                stack.pop();
-            }
-            res[i] = stack.isEmpty() ? -1 : stack.peek();
-            stack.push(nums[i]);
-        }
-        return res;
-    }
-    // 时间复杂度从整体看，每个元素最大进栈一次，出栈一次，没有其他操作，所以总的计算规模和元素规模n成正比，时间复杂度是O(N)
-    ```
+   ```java
+   // 单调栈框架代码
+   public int[] findNextGreatNumber(int[] nums) {
+       if (nums.length == 0) {
+           return new int[0];
+       }
+       Stack<Integer> stack = new Stack<>();
+       int[] res = new int[nums.length];
+       // 因为栈是先进后出，所以要倒序处理
+       for (int i = nums.length - 1; i >= 0; i--) {
+           // 单调栈的顺序是从上往下依次增大，这里必须要有等号
+           while (!stack.isEmpty() && stack.peek() <= nums[i]) {
+               stack.pop();
+           }
+           res[i] = stack.isEmpty() ? -1 : stack.peek();
+           stack.push(nums[i]);
+       }
+       return res;
+   }
+   // 时间复杂度从整体看，每个元素最大进栈一次，出栈一次，没有其他操作，所以总的计算规模和元素规模n成正比，时间复杂度是O(N)
+   ```
 
-    
+   
 
-13. 单调队列这个数据结构可以用来解决滑动窗口相关问题，比如leetcode 239，滑动窗口的最大值
+8. 单调队列这个数据结构可以用来解决滑动窗口相关问题，比如leetcode 239，滑动窗口的最大值
 
-    单调队列实现的过程中，时刻想着这幅图就不会出错了
+   单调队列实现的过程中，时刻想着这幅图就不会出错了
 
-    <img src="image/image-20211208175831206.png" alt="image-20211208175831206" style="zoom:67%;" />
+   <img src="image/image-20211208175831206.png" alt="image-20211208175831206" style="zoom:67%;" />
 
-    ```java
-    // 实现单调队列的时候，脑子里要时刻想着上面这幅图
-    class MonotonicQueue{
-        LinkedList<Integer> q = new LinkedList<>();
-        
-        public void push(int n) {
-            // duang过程
-            while (!q.isEmpty() && q.peekLast() < n) {
-                q.pollLast();
-            }
-            q.addLast();
-        }
-        
-        public int max() {
-            return q.getFirst();
-        }
-        
-        public void pop(int n) {
-            if (n == q.getFirst()) {
-                q.pollFirst();
-            }
-        }
-    }
-    ```
+   ```java
+   // 实现单调队列的时候，脑子里要时刻想着上面这幅图
+   class MonotonicQueue{
+       LinkedList<Integer> q = new LinkedList<>();
+       
+       public void push(int n) {
+           // duang过程
+           while (!q.isEmpty() && q.peekLast() < n) {
+               q.pollLast();
+           }
+           q.addLast();
+       }
+       
+       public int max() {
+           return q.getFirst();
+       }
+       
+       public void pop(int n) {
+           if (n == q.getFirst()) {
+               q.pollFirst();
+           }
+       }
+   }
+   ```
 
 
 
@@ -384,7 +392,63 @@
     // 如果不会出现了，就终止弹栈循环，因为还要保证字符之间的相对顺序
     ```
 
+15. 要记住几个重要的API接口
+
+    ```java
+    Character.isDigit(xx);  // xx是char类型的字符，函数的作用是用来判断这个字符是不是数字
+    Character.isLetter(xx);  // 函数的作用是用来判断这个字符是不是字母
+    xxx.toLowerCase();   // xxx是String字符串，这个函数的作用是将这个字符串中的所有字母都换成小写
+    xxx.toUpperCase()    // 将字符串中的字母全都换成大写
+    ```
+
+16. `Integer.valueOf("0001")`的结果也是1
+
+    在使用`split()`方法的时候，如果分隔符是`.`，那么要这么写`split("\\.")`
     
+17. 图的遍历框架
+
+    ```java
+    // 在图中有环的情况下，才需要用到visited[]数组
+    boolean[] visited;
+    // s是节点
+    void traverse(Graph graph, int s) {
+        if (visited[s]) return;
+        
+        visited[s] = true;
+        
+        for (int neighbor : graph.neighbors(s)) {
+            traverse(neighbor);
+        }
+        
+        visited[s] = false;
+    }
+    
+    // 这里需要注意的是，visited数组的改变是在for循环外面的，而回溯算法则是在for循环里面的
+    ```
+
+18. 回溯算法框架
+
+    代表题目：[字符串的排列 ](https://leetcode-cn.com/problems/zi-fu-chuan-de-pai-lie-lcof/)，[全排列](https://leetcode-cn.com/problems/permutations/)，N皇后
+    
+    回溯算法就是穷举一棵决策树的过程，在递归之前做选择，在递归之后撤销选择
+    
+    ```python
+    result = [];
+    def backtrack(路径，选择列表) :
+        if 满足结束条件:
+            result.add(路径);
+            return;
+        for 选择 in 选择列表:
+            做选择;
+            backtrack(路径，选择列表);
+            撤销选择;
+    ```
+    
+    在路径选择等问题中，如果想要把`list`类型的path加入到另一个list类型的res中，需要使用`res.add(new LinkedList<>(path))`
+    
+19. 递归函数的时间复杂度 = 递归函数调用的次数 × 递归函数本身的时间复杂度
+
+20. 
 
 
 
