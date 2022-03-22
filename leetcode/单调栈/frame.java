@@ -1,5 +1,7 @@
 package 单调栈;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Stack;
 
 /**
@@ -17,16 +19,16 @@ public class frame {
         if (nums.length == 0) {
             return new int[0];
         }
-        Stack<Integer> stack = new Stack<>();
+        Deque<Integer> stack = new ArrayDeque<>();
         int[] res = new int[nums.length];
 
-        // 倒着来
+        // 倒着来，因为是next greater element，倒着来才能够先知道后面的情况
         for (int i = nums.length - 1; i >= 0; i--) {
-            while (!stack.isEmpty() && stack.peek() <= nums[i]) {
-                stack.pop();
+            while (!stack.isEmpty() && stack.peekLast() <= nums[i]) {
+                stack.pollLast();
             }
-            res[i] = stack.isEmpty() ? -1 : stack.peek();
-            stack.push(nums[i]);
+            res[i] = stack.isEmpty() ? -1 : stack.peekLast();
+            stack.addLast(nums[i]);
         }
         return res;
     }
