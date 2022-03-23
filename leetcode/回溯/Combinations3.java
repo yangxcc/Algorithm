@@ -50,6 +50,7 @@ public class Combinations3 {
             if (sum > target) {
                 break;   // 大剪枝， 为了提高效率
             }
+            // 对于同一树层中的元素进行跳过
             if (i > index && candidates[i] == candidates[i - 1]) {
                 continue;   // 小剪枝，提高效率的同时，能够去掉重复值
             }
