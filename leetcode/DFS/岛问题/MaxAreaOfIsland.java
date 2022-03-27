@@ -1,4 +1,4 @@
-package DFS解决岛屿题目;
+package DFS.岛问题;
 
 /**
  * 岛屿的最大面积

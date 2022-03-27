@@ -1,6 +1,4 @@
-package DFS解决岛屿题目;
-
-import sun.java2d.windows.GDIRenderer;
+package DFS.岛问题;
 
 import java.util.HashSet;
 
