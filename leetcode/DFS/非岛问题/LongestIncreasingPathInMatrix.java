@@ -1,4 +1,4 @@
-package DFS解决岛屿题目;
+package DFS.非岛问题;
 
 import java.util.Arrays;
 
